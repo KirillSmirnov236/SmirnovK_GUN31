@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HomeWork
 {
     public class Unit
@@ -12,7 +7,7 @@ namespace HomeWork
         private float _armor;
         public string Name { get; }
         public float Health => _health;
-        public int Damage;
+        public Interval Damage;
         public float Armor => _armor;
 
         public Unit() : this("Unknown Unit")
@@ -23,7 +18,13 @@ namespace HomeWork
         public Unit(string name)
         {
             Name = name;
-            Damage = 5;
+            Damage = new Interval(0, 5);
+            _armor = 0.6f;
+        }
+        public Unit(string name, int minDamage, int maxDamage) 
+        {
+            Name = name;
+            Damage = new Interval(minDamage, maxDamage);
             _armor = 0.6f;
         }
         public float GetRealHealth()
