@@ -4,20 +4,21 @@ namespace HomeWork
     {
         private float _health;
         private float _armor;
+        private int _damage;
         public string Name { get; }
         public float Health => _health;
-        public int Damage;
+        public int Damage => _damage;
         public float Armor => _armor;
 
         public Unit() : this("Unknown Unit")
         {
-            
+
         }
 
         public Unit(string name)
         {
             Name = name;
-            Damage = 5;
+            _damage = 5;
             _armor = 0.6f;
         }
         public float GetRealHealth()
@@ -27,15 +28,7 @@ namespace HomeWork
         public bool SetDamage(float value)
         {
             _health = Health - value * Armor;
-            
-            if (Health <= 0f)
-            {
-                return true;
-            }
-            else 
-            { 
-                return false; 
-            }
+            return Health >= 0f;
         }
     }
 }
