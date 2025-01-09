@@ -5,6 +5,7 @@ namespace Homework
     public class Weapon
     {
         private float _durability;
+
         public string Name { get; }
 
         public Interval Damage;
@@ -15,9 +16,9 @@ namespace Homework
         {
             Name = name;
         }
-        public Weapon(string name , Interval damage) : this(name) 
+        public Weapon(string name , int minDamage , int maxDamage) : this(name) 
         {
-            Damage = damage;
+            Damage = new Interval(minDamage , maxDamage);
         }
 
         public int GetDamage()

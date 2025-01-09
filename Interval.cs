@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace HomeWork
 {
     public struct Interval
     {
-        public int Min;
-        public int Max;
-        public Random random;
+        private int Min;
+        private int Max;
+        private Random random;
 
         public int Get() 
         {
@@ -19,6 +14,9 @@ namespace HomeWork
 
         public Interval(int minValue , int maxValue)
         {
+            random = new Random();
+            int incrementCounter = 10;
+
             if (minValue < 0) 
             {
                 minValue = 0;
@@ -31,14 +29,12 @@ namespace HomeWork
             }
             if (minValue == maxValue)
             {
-                maxValue += 10;
+                maxValue += incrementCounter;
                 Console.WriteLine("minValue = maxValue!");
             }
             if (minValue > maxValue)
             {
-                var x = maxValue;
-                maxValue = minValue;
-                minValue = x;
+                (minValue, maxValue) = (maxValue, minValue);
                 Console.WriteLine("minValue bigger then maxValue!");
             }
             Min = minValue;
