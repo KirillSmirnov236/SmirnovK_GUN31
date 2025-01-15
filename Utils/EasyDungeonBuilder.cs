@@ -1,5 +1,6 @@
 ﻿using GamePrototype.Dungeon;
 using GamePrototype.Items.EconomicItems;
+using GamePrototype.Items.EquipItems;
 
 namespace GamePrototype.Utils
 {
@@ -15,6 +16,7 @@ namespace GamePrototype.Utils
             var lootRoom = new DungeonRoom("Loot1", new Gold());
             var lootStoneRoom = new DungeonRoom("Loot1", new Grindstone("Stone"));
             var finalRoom = new DungeonRoom("Final", new Grindstone("Stone1"));
+            var weaponRoom = new DungeonRoom("Weapon", new Weapon(20, 20, "Axe"));
 
             
             enter.TrySetDirection(Direction.Right, monsterRoom);
@@ -23,7 +25,10 @@ namespace GamePrototype.Utils
             monsterRoom.TrySetDirection(Direction.Forward, lootRoom);
             monsterRoom.TrySetDirection(Direction.Left, emptyRoom);
 
-            emptyRoom.TrySetDirection(Direction.Forward, lootStoneRoom);
+            emptyRoom.TrySetDirection(Direction.Forward, weaponRoom);
+            
+
+            weaponRoom.TrySetDirection(Direction.Forward, enter);
 
             lootRoom.TrySetDirection(Direction.Forward, finalRoom);
             lootStoneRoom.TrySetDirection(Direction.Forward, finalRoom);
