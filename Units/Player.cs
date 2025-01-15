@@ -2,6 +2,7 @@
 using GamePrototype.Items.EquipItems;
 using GamePrototype.Utils;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GamePrototype.Units
 {
@@ -15,10 +16,20 @@ namespace GamePrototype.Units
 
         public override uint GetUnitDamage()
         {
+            
             if (_equipment.TryGetValue(EquipSlot.Weapon, out var item) && item is Weapon weapon) 
             {
                 return BaseDamage + weapon.Damage;
             }
+            //task2
+            else
+            {
+                if (_equipment.TryGetValue(EquipSlot.RangeWeapon, out var item2) && item2 is RangeWeapon rangeWeapon)
+                {
+                    return BaseDamage + rangeWeapon.Damage;
+                }
+            }
+            //
             return BaseDamage;
         }
 
@@ -42,6 +53,20 @@ namespace GamePrototype.Units
                 // Item was equipped
                 return;
             }
+            
+            if (item is EquipItem equipItem1)
+            {
+                Console.WriteLine($"Have you received {equipItem1.Name}, do you want to use it instead of the old one?");
+                Console.WriteLine("Yes-1 , No-0");
+                int input = int.Parse(Console.ReadLine());
+                if (input == 1) 
+                {
+                    var slotType = equipItem1.Slot;
+                    _equipment[slotType] = equipItem1;
+                }
+                return;
+            }
+            //
             base.AddItemToInventory(item);
         }
 
@@ -51,14 +76,34 @@ namespace GamePrototype.Units
             {
                 Health += healthPotion.HealthRestore;
             }
+            //task1
+            if (economicItem is Grindstone grindstone) 
+            {
+                if (_equipment.TryGetValue(EquipSlot.Weapon, out var item) && item is Weapon weapon)
+                {
+                    weapon.Repair(grindstone.DurabilityRestore);
+                }
+            }
+            //
         }
 
         protected override uint CalculateAppliedDamage(uint damage)
         {
+            //task1 and task2
+            uint reduceDurabilityPerHit = 1;
+
             if (_equipment.TryGetValue(EquipSlot.Armour, out var item) && item is Armour armour) 
             {
                 damage -= (uint)(damage * (armour.Defence / 100f));
+                armour.ReduceDurability(reduceDurabilityPerHit);
             }
+
+            if (_equipment.TryGetValue(EquipSlot.Helmet, out var item2) && item2 is Helmet helmet)
+            {
+                damage -= (uint)(damage * (helmet.Defence / 100f));
+                helmet.ReduceDurability(reduceDurabilityPerHit);
+            }
+            //
             return damage;
         }
 

@@ -23,9 +23,44 @@ namespace GamePrototype.Game
         private void Initialize()
         {
             Console.WriteLine("Welcome, player!");
-            _dungeon = DungeonBuilder.BuildDungeon();
+
+            Console.WriteLine("Type the difficulty level(Easy,Hard):");
+            var input = Console.ReadLine();
+            var difficulty = new DifficultyLevel();
+            if (input == "Easy")
+            {
+                difficulty = DifficultyLevel.Easy;
+                Console.WriteLine("Difficulty level: Easy.");
+            }
+            else
+            {
+                difficulty = DifficultyLevel.Hard;
+                Console.WriteLine("Difficulty level: Hard.");
+            }
+
             Console.WriteLine("Enter your name");
-            _player = UnitFactoryDemo.CreatePlayer(Console.ReadLine());
+            var playerName = Console.ReadLine();
+
+            switch (difficulty)
+            {
+                case DifficultyLevel.Easy:
+                    var UnitFactoryEasy = new UnitFactoryEasy();
+                    var EasyDungeonBuilder = new EasyDungeonBuilder();
+
+                    _player = UnitFactoryEasy.CreatePlayer(playerName);
+                    _dungeon = EasyDungeonBuilder.BuildDungeon();
+                    break;
+
+                case DifficultyLevel.Hard:
+                    var UnitFactoryHard = new UnitFactoryHard();
+                    var HardDungeonBuilder = new HardDungeonBuilder();
+
+                    _player = UnitFactoryHard.CreatePlayer(playerName);
+                    _dungeon = HardDungeonBuilder.BuildDungeon();
+                    break;
+
+            }
+            
             Console.WriteLine($"Hello {_player.Name}");
         }
 
